@@ -29,10 +29,9 @@ if (Meteor.isClient) {
     return Session.equals("selected_player", this._id) ? "warning" : '';
   };
 
-  /* When you press the button, add 5 points to the player */
   Template.leaderboard.events({
     'click #increment': function () {
-      Players.update(Session.get("selected_player"), {$inc: {score: 5}});
+      Players.update(Session.get("selected_player"), {$inc: {score: 1}});
     },
     'click #delete': function () {
       Players.remove(Session.get("selected_player"));
@@ -74,7 +73,7 @@ if (Meteor.isClient) {
       // Re-insert players with new scores
       for (var i = 0; i < players.length; i++) 
       {
-        var player = {name: players[i].name, score: Math.floor(Random.fraction()*10)*5};
+        var player = {name: players[i].name, score: Math.floor(Random.fraction()*10)};
         Players.insert(player);
       }
     },
@@ -92,15 +91,14 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
     if (Players.find().count() === 0) {
-      var names = ["Roger Zurawicki",
-                   "Ada Lovelace",
-                   "Grace Hopper",
-                   "Marie Curie",
-                   "Carl Friedrich Gauss",
-                   "Nikola Tesla",
-                   "Claude Shannon"];
+      var names = ["Person A",
+                   "Person B",
+                   "Person C",
+                   "Person D",
+                   "Person E",
+                   "Person F",];
       for (var i = 0; i < names.length; i++)
-        Players.insert({name: names[i], score: Math.floor(Random.fraction()*10)*5});
+        Players.insert({name: names[i], score: Math.floor(Random.fraction()*10)});
     }
   });
 }
